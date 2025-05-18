@@ -8,8 +8,10 @@ import {
   completeTask,
   uncompleteTask,
 } from "../controllers/task.controller.js";
+import { getAllMetaData } from "../middlewares/index.js";
 
 const router = Router();
+router.use(getAllMetaData);
 
 router.route("/").get(getAllTasks);
 router.route("/:id").get(getTaskById);

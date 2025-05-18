@@ -9,7 +9,13 @@ const getAllTasks = async (req, res) => {
     const tasks = await prisma.task.findMany();
     res
       .status(200)
-      .json(new ApiResponse(200, tasks, "Tasks retrieved successfully"));
+      .json(
+        new ApiResponse(
+          200,
+          { tasks, metadata: req.metadata },
+          "Tasks retrieved successfully"
+        )
+      );
   } catch (error) {
     throw new ApiError(500, "Error retrieving tasks");
   }
@@ -28,7 +34,13 @@ const getTaskById = async (req, res) => {
   }
   res
     .status(200)
-    .json(new ApiResponse(200, task, "Task retrieved successfully"));
+    .json(
+      new ApiResponse(
+        200,
+        { task, metadata: req.metadata },
+        "Task retrieved successfully"
+      )
+    );
 };
 
 const createTask = async (req, res) => {
@@ -42,7 +54,15 @@ const createTask = async (req, res) => {
       description,
     },
   });
-  res.status(201).json(new ApiResponse(201, task, "Task created successfully"));
+  res
+    .status(201)
+    .json(
+      new ApiResponse(
+        201,
+        { task, metadata: req.metadata },
+        "Task created successfully"
+      )
+    );
 };
 
 const updateTask = async (req, res) => {
@@ -61,7 +81,13 @@ const updateTask = async (req, res) => {
     });
     res
       .status(200)
-      .json(new ApiResponse(200, task, "Task updated successfully"));
+      .json(
+        new ApiResponse(
+          200,
+          { task, metadata: req.metadata },
+          "Task updated successfully"
+        )
+      );
   }
   if (!title && description) {
     const task = await prisma.task.update({
@@ -70,7 +96,13 @@ const updateTask = async (req, res) => {
     });
     res
       .status(200)
-      .json(new ApiResponse(200, task, "Task updated successfully"));
+      .json(
+        new ApiResponse(
+          200,
+          { task, metadata: req.metadata },
+          "Task updated successfully"
+        )
+      );
   }
   if (title && description) {
     const task = await prisma.task.update({
@@ -79,7 +111,13 @@ const updateTask = async (req, res) => {
     });
     res
       .status(200)
-      .json(new ApiResponse(200, task, "Task updated successfully"));
+      .json(
+        new ApiResponse(
+          200,
+          { task, metadata: req.metadata },
+          "Task updated successfully"
+        )
+      );
   }
 };
 
@@ -94,7 +132,13 @@ const deleteTask = async (req, res) => {
     });
     res
       .status(200)
-      .json(new ApiResponse(200, task, "Task deleted successfully"));
+      .json(
+        new ApiResponse(
+          200,
+          { task, metadata: req.metadata },
+          "Task deleted successfully"
+        )
+      );
   } catch (error) {
     if (error.code === "P2025") {
       throw new ApiError(404, "Task not found");
@@ -115,7 +159,13 @@ const completeTask = async (req, res) => {
     });
     res
       .status(200)
-      .json(new ApiResponse(200, task, "Task marked as completed"));
+      .json(
+        new ApiResponse(
+          200,
+          { task, metadata: req.metadata },
+          "Task marked as completed"
+        )
+      );
   } catch (error) {
     if (error.code === "P2025") {
       throw new ApiError(404, "Task not found");
@@ -136,7 +186,13 @@ const uncompleteTask = async (req, res) => {
     });
     res
       .status(200)
-      .json(new ApiResponse(200, task, "Task marked as uncompleted"));
+      .json(
+        new ApiResponse(
+          200,
+          { task, metadata: req.metadata },
+          "Task marked as uncompleted"
+        )
+      );
   } catch (error) {
     if (error.code === "P2025") {
       throw new ApiError(404, "Task not found");
